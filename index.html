@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rondo Party</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💣</text></svg>">
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<style>
+:root{color-scheme:dark;--bg:#13152b;--pn:#1e2247;--pn2:#2a2f5e;--tx:#f2f4ff;--mu:#9aa0d0;--ac:#ffb84d;--rd:#ff5470;--gr:#4fe3a1;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#app{max-width:560px;margin:0 auto;padding:12px 16px 32px}
+.logo{font-weight:900;font-size:44px;letter-spacing:2px;text-align:center;margin:18px 0 6px}
+.logo small{display:block;font-size:13px;letter-spacing:8px;color:var(--ac)}
+.logo.sm{font-size:28px;margin:6px 0}
+.sub,.mu{color:var(--mu)}.sub{text-align:center;margin:0 0 16px}
+.card{background:var(--pn);border-radius:16px;padding:16px;margin:12px 0;display:flex;flex-direction:column;gap:10px}
+.center{text-align:center;align-items:center}
+.in{width:100%;padding:12px 14px;border-radius:12px;border:2px solid var(--pn2);background:var(--bg);color:var(--tx);font:inherit;font-size:17px}
+.in:focus{outline:none;border-color:var(--ac)}
+.btn{padding:13px;border:0;border-radius:12px;background:var(--ac);color:#241a00;font:inherit;font-weight:800;font-size:17px;cursor:pointer}
+.btn.alt{background:var(--pn2);color:var(--tx)}.btn:disabled{opacity:.4;cursor:not-allowed}
+.or{text-align:center;color:var(--mu);font-size:13px}
+.err{color:var(--rd);text-align:center;min-height:1.4em}
+.code{font-size:52px;font-weight:900;letter-spacing:10px;color:var(--ac)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--bg);border:2px solid var(--pn2);border-radius:999px;padding:3px 10px;font-size:14px}
+.chip.big{font-size:16px;padding:6px 14px}.x{cursor:pointer;color:var(--rd);font-weight:900}
+.q{text-align:center;font-size:22px;font-weight:800;color:var(--ac);margin:8px 0}
+.table{position:relative;width:min(100%,400px);aspect-ratio:1;margin:8px auto}
+.table::before{content:"";position:absolute;inset:12%;border:2px dashed var(--pn2);border-radius:50%}
+.pl{position:absolute;transform:translate(-50%,-50%);width:78px;text-align:center}
+.av{width:46px;height:46px;border-radius:50%;margin:0 auto;display:grid;place-items:center;font-weight:900;font-size:20px;color:#fff;border:3px solid transparent}
+.pl.cur .av{border-color:var(--ac);box-shadow:0 0 0 4px #ffb84d44,0 0 22px var(--ac)}
+.nm{font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lv{font-size:12px;color:var(--rd);min-height:1em}.pl.out{opacity:.35}
+.bomb{position:absolute;transform:translate(-50%,-50%);font-size:44px;line-height:1;text-align:center;animation:pop .35s}
+.bomb b{display:block;font-size:20px;color:var(--ac)}.bomb.hot{animation:shake .25s infinite}
+.bar{height:10px;border-radius:99px;background:var(--pn);overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--rd),var(--ac))}
+.msg{text-align:center;min-height:1.5em;font-weight:700}.msg.ok{color:var(--gr)}.msg.no,.msg.dup,.msg.boom{color:var(--rd)}
+.row{display:flex;gap:8px}.row .in{flex:1}.row .btn{width:auto;padding:0 20px}
+.f.no .av,.f.dup .av{animation:wob .3s}.f.boom .av{animation:wob .3s;background:var(--rd)!important}
+.f.ok .av{box-shadow:0 0 0 4px #4fe3a1aa}
+@keyframes pop{from{transform:translate(-50%,-50%) scale(1.5)}}
+@keyframes shake{25%{transform:translate(-50%,-50%) rotate(-8deg)}75%{transform:translate(-50%,-50%) rotate(8deg)}}
+@keyframes wob{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+</style></head>
+<body><div id="app"></div>
+<script>
+const Q=[
+["Ballon d’Or men’s winners","Stanley Matthews|matthews;Alfredo Di Stéfano|di stefano|distefano;Raymond Kopa|kopa;Luis Suárez|suarez;Omar Sívori|sivori;Josef Masopust|masopust;Lev Yashin|yashin;Denis Law|law;Eusébio|eusebio;Bobby Charlton|charlton;Florian Albert|albert;George Best|best;Gianni Rivera|rivera;Gerd Müller|muller|mueller;Johan Cruyff|cruyff|cruijff;Franz Beckenbauer|beckenbauer;Oleg Blokhin|blokhin;Allan Simonsen|simonsen;Kevin Keegan|keegan;Karl-Heinz Rummenigge|rummenigge;Michel Platini|platini;Paolo Rossi|rossi;Igor Belanov|belanov;Ruud Gullit|gullit;Marco van Basten|van basten|basten;Lothar Matthäus|matthaus|matthaeus;Jean-Pierre Papin|papin;Roberto Baggio|baggio;Hristo Stoichkov|stoichkov;George Weah|weah;Matthias Sammer|sammer;Ronaldo Nazário|ronaldo|ronaldo nazario|r9;Zinedine Zidane|zidane;Rivaldo|rivaldo;Michael Owen|owen;Pavel Nedvěd|nedved;Andriy Shevchenko|shevchenko;Ronaldinho|ronaldinho;Fabio Cannavaro|cannavaro;Kaká|kaka;Cristiano Ronaldo|ronaldo|cr7;Lionel Messi|messi|leo messi;Luka Modrić|modric;Karim Benzema|benzema;Rodri|rodri;Ousmane Dembélé|dembele"],
+["Premier League Golden Boot winners","Teddy Sheringham|sheringham;Andy Cole|cole;Alan Shearer|shearer;Michael Owen|owen;Chris Sutton|sutton;Dion Dublin|dublin;Jimmy Floyd Hasselbaink|hasselbaink|jimmy floyd;Dwight Yorke|yorke;Kevin Phillips|phillips;Thierry Henry|henry;Ruud van Nistelrooy|van nistelrooy|nistelrooy;Didier Drogba|drogba;Cristiano Ronaldo|ronaldo|cr7;Nicolas Anelka|anelka;Dimitar Berbatov|berbatov;Carlos Tevez|tevez;Robin van Persie|van persie|persie;Luis Suárez|suarez;Sergio Agüero|aguero;Jamie Vardy|vardy;Harry Kane|kane;Mohamed Salah|salah;Sadio Mané|mane;Pierre-Emerick Aubameyang|aubameyang|auba;Son Heung-min|son|heung min son;Erling Haaland|haaland"],
+["European Cup / Champions League winning clubs","Real Madrid|madrid;AC Milan|milan|ac milan;Bayern Munich|bayern|bayern munchen;Liverpool;Barcelona|barca;Ajax;Inter Milan|inter|internazionale;Manchester United|man united|man utd|united;Juventus|juve;Benfica;Nottingham Forest|forest|notts forest;Porto|fc porto;Celtic;Hamburg|hamburger sv|hsv;Steaua Bucharest|steaua|steaua bucuresti;Marseille|olympique marseille;Borussia Dortmund|dortmund|bvb;Feyenoord;Aston Villa|villa;PSV Eindhoven|psv;Red Star Belgrade|red star|crvena zvezda;Chelsea;Manchester City|man city|city;Paris Saint-Germain|psg|paris sg"],
+["Countries that have hosted a men’s World Cup","Uruguay;Italy;France;Brazil;Switzerland;Sweden;Chile;England;Mexico;Germany|west germany;Argentina;Spain;United States|usa|us|america;Japan;South Korea|korea|korea republic;South Africa;Russia;Qatar;Canada"],
+["Premier League title-winning managers","Kenny Dalglish|dalglish;Alex Ferguson|ferguson|fergie|sir alex;Arsène Wenger|wenger;José Mourinho|mourinho;Carlo Ancelotti|ancelotti;Roberto Mancini|mancini;Manuel Pellegrini|pellegrini;Claudio Ranieri|ranieri;Antonio Conte|conte;Pep Guardiola|guardiola|pep;Jürgen Klopp|klopp;Arne Slot|slot"],
+["England men’s managers (incl. caretakers)","Walter Winterbottom|winterbottom;Alf Ramsey|ramsey;Joe Mercer|mercer;Don Revie|revie;Ron Greenwood|greenwood;Bobby Robson|robson;Graham Taylor|taylor;Terry Venables|venables;Glenn Hoddle|hoddle;Howard Wilkinson|wilkinson;Kevin Keegan|keegan;Peter Taylor|taylor|peter taylor;Sven-Göran Eriksson|eriksson|sven;Steve McClaren|mcclaren;Fabio Capello|capello;Roy Hodgson|hodgson;Sam Allardyce|allardyce|big sam;Gareth Southgate|southgate;Lee Carsley|carsley;Thomas Tuchel|tuchel"],
+["South American countries","Argentina;Bolivia;Brazil;Chile;Colombia;Ecuador;Guyana;Paraguay;Peru;Suriname;Uruguay;Venezuela;French Guiana"]
+];
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+const ANS=Q.map(([t,r])=>r.split(";").map(e=>{const p=e.split("|");return{n:p[0],a:p.map(norm)}}));
+const TURN=10000,$=s=>document.querySelector(s);
+const h=(t,a={},...k)=>{const e=document.createElement(t);for(const[x,v]of Object.entries(a))x==="class"?e.className=v:x.startsWith("on")?e[x]=v:e.setAttribute(x,v);k.flat().forEach(c=>e.append(c));return e};
+const col=i=>"hsl("+(i*67%360)+" 65% 52%)";
+const pos=(i,n,r)=>{const a=2*Math.PI*i/n-Math.PI/2;return[50+r*Math.cos(a),50+r*Math.sin(a)]};
+let peer,hostConn,isHost=false,code="",me=null,S=null,H=null,myName="",dl=0,lastSig="",lastEv=-1,inp;const conns=new Map();
+const emit=(t,d)=>{conns.forEach(c=>{if(c.open)c.send(d)})};
+const act=(t,x={})=>{const d={t,...x};if(isHost)onAct({peer:"~host",sameTab:true,data:d});else if(hostConn&&hostConn.open)hostConn.send(d)};
+const saved=()=>{try{return localStorage.getItem("rondo-name")||""}catch(e){return""}};
+
+/* ---------- host engine (the computer judge) ---------- */
+function newGame(){S={phase:"lobby",pick:-1,q:0,lives:2,players:[],cur:0,used:[],ms:0,win:null,ev:{n:0}};H={ui:new Set(),dl:0,n:0,pid:0}}
+function ev(k,pid,txt){S.ev={n:++H.n,k,pid,txt}}
+function bc(){S.ms=S.phase==="play"?Math.max(0,H.dl-Date.now()):0;dl=H.dl;emit("state",S);render()}
+function nextAlive(from){const n=S.players.length;for(let i=1;i<=n;i++){const j=(from+i)%n;if(!S.players[j].out)return j}return from}
+function end(w){S.phase="over";S.win=w;bc()}
+function start(){S.q=S.pick<0?Math.random()*Q.length|0:S.pick;H.ui=new Set();S.used=[];S.win=null;S.players.forEach(p=>{p.lv=S.lives;p.out=0});S.cur=0;S.phase="play";H.dl=Date.now()+TURN;ev("go","","");bc()}
+function judge(txt){
+  const t=norm(txt),L=ANS[S.q],p=S.players[S.cur];if(!t)return;
+  const i=L.findIndex((e,i)=>!H.ui.has(i)&&e.a.includes(t));
+  if(i<0){ev(L.some(e=>e.a.includes(t))?"dup":"no",p.id,txt.slice(0,30));return bc()}
+  H.ui.add(i);S.used.push([L[i].n,S.cur]);
+  if(H.ui.size>=L.length)return end(S.players.filter(x=>!x.out).map(x=>x.n).join(" & "));
+  S.cur=nextAlive(S.cur);H.dl=Date.now()+TURN;ev("ok",p.id,L[i].n);bc();
+}
+function onAct(m){
+  if(m.sameTab)me=m.peer;
+  if(!isHost||!S||!m.data)return;
+  const d=m.data,own=m.peer===me,L=S.players,lobby=S.phase==="lobby";
+  if(d.t==="hi")return bc();
+  if(d.t==="ans"){if(S.phase==="play"&&L[S.cur]&&L[S.cur].o===m.peer&&typeof d.text==="string")judge(d.text.slice(0,60));return}
+  if(d.t==="join"&&lobby&&L.length<10&&!L.some(p=>p.o===m.peer&&!p.l))L.push({id:"p"+(++H.pid),n:String(d.name||"Player").slice(0,14),o:m.peer,l:0,lv:0,out:0});
+  if(d.t==="local"&&own&&lobby&&L.length<10)L.push({id:"p"+(++H.pid),n:String(d.name||"Guest").slice(0,14),o:m.peer,l:1,lv:0,out:0});
+  if(d.t==="rm"&&own&&lobby)S.players=L.filter(p=>!(p.id===d.id&&p.l));
+  if(d.t==="cfg"&&own&&lobby){S.pick=Math.max(-1,Math.min(Q.length-1,d.pick|0));S.lives=Math.max(1,Math.min(3,d.lives|0||2))}
+  if(d.t==="start"&&own&&lobby&&L.length>=2)return start();
+  if(d.t==="again"&&own&&S.phase==="over"){S.phase="lobby";S.used=[];S.win=null;S.players=L.filter(p=>p.o==="~host"||conns.has(p.o))}
+  bc();
+}
+setInterval(()=>{
+  if(!isHost||!S||S.phase!=="play"||Date.now()<H.dl)return;
+  const p=S.players[S.cur];p.lv--;if(p.lv<=0)p.out=1;ev("boom",p.id,"");
+  const al=S.players.filter(x=>!x.out);
+  if(al.length<=1)return end(al[0]?al[0].n:"Nobody");
+  S.cur=nextAlive(S.cur);H.dl=Date.now()+TURN;bc();
+},200);
+setInterval(()=>{if(isHost&&S)bc()},1000);
+
+/* ---------- client ---------- */
+function onState(d){
+  if(isHost||!d||!d.players)return;
+  if(!S)lastEv=d.ev?d.ev.n:0;
+  S=d;dl=Date.now()+(S.ms||0);render();
+}
+function render(){
+  const sig=JSON.stringify([S.phase,S.q,S.pick,S.lives,S.players,S.cur,S.used.length,S.win]);
+  if(sig!==lastSig){lastSig=sig;build()}
+  if(S.ev&&S.ev.n!==lastEv){lastEv=S.ev.n;flash(S.ev)}
+}
+function flash(e){
+  const m=$("#msg");if(!m)return;
+  const p=S.players.find(x=>x.id===e.pid),el=p&&document.querySelector('[data-p="'+p.id+'"]'),nm=p?p.n:"";
+  m.textContent=({ok:nm+": "+e.txt+" ✓",dup:"“"+e.txt+"” has already been used",no:"“"+e.txt+"” isn’t on my list",boom:"💥 "+nm+" lost a life!"})[e.k]||"";
+  m.className="msg "+e.k;
+  if(el){el.classList.remove("f","ok","no","dup","boom");void el.offsetWidth;el.classList.add("f",e.k)}
+}
+function send(){const v=inp.value.trim();if(!v)return;act("ans",{text:v});inp.value="";inp.focus()}
+
+function build(){
+  const a=$("#app");a.replaceChildren();
+  if(S.phase==="lobby")lobby(a);else play(a);
+}
+function chips(){return h("div",{class:"chips"},S.used.map(([n,i])=>h("span",{class:"chip",style:"border-color:"+col(i)},n)))}
+function lobby(a){
+  const L=S.players;
+  a.append(h("div",{class:"logo sm"},"💣 RONDO"),
+    h("div",{class:"card center"},h("div",{class:"mu"},"GAME CODE"),h("div",{class:"code"},code.toUpperCase()),h("div",{class:"mu"},"Friends: open this page, tap Join game and enter the code."),h("button",{class:"btn alt",onclick:e=>{navigator.clipboard.writeText(location.origin+location.pathname+"?code="+code.toUpperCase()).then(()=>{e.target.textContent="Copied ✓"}).catch(()=>{})}},"Copy invite link")),
+    h("div",{class:"card"},h("div",{class:"mu"},"PLAYERS ("+L.length+"/10)"),
+      h("div",{class:"chips"},L.map((p,i)=>h("span",{class:"chip big",style:"border-color:"+col(i)},p.n+(p.o===me&&!p.l?" (you)":"")+(p.l?" · local":""),isHost&&p.l?h("b",{class:"x",onclick:()=>act("rm",{id:p.id})}," ×"):"")))));
+  if(isHost){
+    const sel=h("select",{class:"in"},h("option",{value:"-1"},"🎲 Random question"),Q.map((q,i)=>h("option",{value:i},q[0])));
+    const lv=h("select",{class:"in"},[1,2,3].map(n=>h("option",{value:n},n+(n>1?" lives each":" life each"))));
+    sel.value=S.pick;lv.value=S.lives;
+    sel.onchange=lv.onchange=()=>act("cfg",{pick:+sel.value,lives:+lv.value});
+    const li=h("input",{class:"in",maxlength:"14",placeholder:"Add a local player (same device)"});
+    a.append(h("div",{class:"card"},sel,lv,h("div",{class:"row"},li,h("button",{class:"btn alt",onclick:()=>{if(li.value.trim())act("local",{name:li.value.trim()})}},"Add"))),
+      h("button",{class:"btn",...(L.length<2?{disabled:""}:{}),onclick:()=>act("start")},L.length<2?"Need 2+ players":"Start game"));
+  }else a.append(h("div",{class:"card center mu"},"Waiting for the host to start…",h("div",{},"Question: "+(S.pick<0?"random":Q[S.pick][0]))));
+  a.append(h("p",{class:"or"},h("a",{href:"#",style:"color:inherit",onclick:e=>{e.preventDefault();location.reload()}},"Leave game")));
+}
+function play(a){
+  const n=S.players.length,cur=S.players[S.cur],over=S.phase==="over",myTurn=!over&&cur&&cur.o===me;
+  const tb=h("div",{class:"table"});
+  S.players.forEach((p,i)=>{const[x,y]=pos(i,n,38);
+    tb.append(h("div",{class:"pl"+(!over&&i===S.cur?" cur":"")+(p.out?" out":""),"data-p":p.id,style:"left:"+x+"%;top:"+y+"%"},
+      h("div",{class:"av",style:"background:"+col(i)},p.n[0].toUpperCase()),
+      h("div",{class:"nm"},p.n+(p.o===me&&!p.l?" (you)":"")),
+      h("div",{class:"lv"},p.out?"💀":"♥".repeat(Math.max(0,p.lv)))))});
+  if(!over){const[bx,by]=pos(S.cur,n,23);tb.append(h("div",{class:"bomb",id:"bomb",style:"left:"+bx+"%;top:"+by+"%"},"💣",h("b",{id:"bn"},"")))}
+  a.append(h("div",{class:"q"},over?"🏆 "+S.win+" wins!":"Name: "+Q[S.q][0]),tb);
+  if(!over){
+    a.append(h("div",{class:"bar"},h("i",{id:"bf"})),h("div",{class:"msg",id:"msg"}));
+    if(myTurn){
+      inp=h("input",{class:"in",autocomplete:"off",autocapitalize:"off",spellcheck:"false",placeholder:(cur.l?cur.n+", your answer…":"Your answer…")});
+      inp.onkeydown=e=>{if(e.key==="Enter")send()};
+      a.append(h("div",{class:"row"},inp,h("button",{class:"btn",onclick:send},"Pass")));
+      setTimeout(()=>inp.focus(),30);
+    }else a.append(h("div",{class:"msg mu"},"Waiting for "+(cur?cur.n:"…")+"…"));
+  }else{
+    a.append(h("div",{class:"msg",id:"msg"}));
+    a.append(isHost?h("button",{class:"btn",onclick:()=>act("again")},"Back to lobby"):h("div",{class:"msg mu"},"Waiting for the host…"));
+  }
+  a.append(h("div",{class:"mu",style:"margin:14px 0 6px"},"USED ANSWERS ("+S.used.length+"/"+ANS[S.q].length+")"),chips());
+}
+setInterval(()=>{
+  const b=$("#bn");if(!b||!S||S.phase!=="play")return;
+  const l=Math.max(0,dl-Date.now());
+  b.textContent=Math.ceil(l/1000);$("#bf").style.width=(l/TURN*100)+"%";$("#bomb").classList.toggle("hot",l<3000);
+},100);
+
+/* ---------- home / connect ---------- */
+function home(msg){
+  const a=$("#app");a.replaceChildren();
+  const ni=h("input",{class:"in",maxlength:"14",placeholder:"Your name",value:saved()});
+  const ci=h("input",{class:"in",maxlength:"6",placeholder:"Game code",value:new URLSearchParams(location.search).get("code")||""});
+  a.append(h("div",{class:"logo"},"💣 RONDO",h("small",{},"PARTY")),
+    h("p",{class:"sub"},"Take turns naming one valid answer each, round and round the circle. Repeat one, blank, or run out of time and the bomb takes a life. Last player standing wins."),
+    h("div",{class:"card"},ni,h("button",{class:"btn",onclick:()=>go(ni.value,"")},"Create game"),
+      h("div",{class:"or"},"or join friends"),ci,h("button",{class:"btn alt",onclick:()=>go(ni.value,ci.value||"-")},"Join game")),
+    h("p",{class:"err",id:"err"},msg||""));
+}
+const err=m=>{const e=$("#err");if(e)e.textContent=m};
+function go(n,c){
+  n=n.trim().slice(0,14);if(!n)return err("Enter a name first.");
+  if(c==="-")return err("Enter the game code.");
+  if(!window.Peer)return err("Couldn’t load the networking library. Check your connection and reload.");
+  myName=n;try{localStorage.setItem("rondo-name",n)}catch(e){}
+  isHost=!c;S=null;lastSig="";
+  if(isHost)hostUp(0);else joinUp(c.toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,6));
+}
+function hostUp(tries){
+  if(peer)peer.destroy();
+  code=Array.from({length:4},()=>"abcdefghjkmnpqrstuvwxyz"[Math.random()*23|0]).join("");
+  peer=new Peer("rondo-"+code);
+  peer.on("error",e=>{if(e.type==="unavailable-id"&&tries<5)return hostUp(tries+1);home("Couldn’t start a game ("+e.type+"). Try again.")});
+  peer.on("open",()=>{me="~host";newGame();render();act("join",{name:myName})});
+  peer.on("connection",c=>{
+    c.on("open",()=>{conns.set(c.peer,c);bc()});
+    c.on("data",d=>{if(d&&typeof d==="object")onAct({peer:c.peer,sameTab:false,data:d})});
+    c.on("close",()=>drop(c.peer));c.on("error",()=>drop(c.peer));
+  });
+}
+function drop(id){
+  if(!conns.delete(id)||!S)return;
+  if(S.phase==="lobby")S.players=S.players.filter(p=>p.o!==id);
+  else{
+    S.players.forEach(p=>{if(p.o===id)p.out=1});
+    const al=S.players.filter(x=>!x.out);
+    if(S.phase==="play"&&al.length<=1)return end(al[0]?al[0].n:"Nobody");
+    if(S.phase==="play"&&S.players[S.cur].out){S.cur=nextAlive(S.cur);H.dl=Date.now()+TURN}
+  }
+  bc();
+}
+function joinUp(cd){
+  code=cd;if(!code)return err("Enter the game code.");
+  $("#app").replaceChildren(h("div",{class:"logo sm"},"💣 RONDO"),h("div",{class:"card center mu"},"Joining game "+code.toUpperCase()+"…"));
+  const fail=m=>{if(S)return;if(peer)peer.destroy();peer=null;home(m)};
+  peer=new Peer();
+  const t=setTimeout(()=>fail("No game found with that code."),10000);
+  peer.on("error",e=>{clearTimeout(t);fail(e.type==="peer-unavailable"?"No game found with that code.":"Connection problem ("+e.type+").")});
+  peer.on("open",id=>{
+    me=id;hostConn=peer.connect("rondo-"+code,{reliable:true});
+    hostConn.on("open",()=>{clearTimeout(t);act("hi");act("join",{name:myName})});
+    hostConn.on("data",onState);
+    hostConn.on("close",()=>home("Disconnected from the host."));
+  });
+}
+home();
+</script></body></html>
